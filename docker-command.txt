@@ -1,0 +1,166 @@
+Docker commands overview (with examples):
+
+## List Docker CLI commands
+   docker
+   docker container --help
+
+## Display Docker version and info
+   docker --version
+   docker version
+   docker info
+
+## Execute Docker image
+   docker run hello-world
+
+   docker run
+      --rm                   ## remove container automatically after it exits
+      -it                    ## connect the container to terminal
+      --name web_container   ## name the container
+      -p 5000:80             ## expose port 5000 externally and map to port 80
+      -v ~/dev:/code         ## create a host mapped volume inside the container
+      alpine:3.4             ## the image from which the container is instantiated
+      /bin/sh                ## the command to run inside the container
+
+## List Docker images
+   docker image ls
+   docker images
+
+## tag image
+   docker tag phusion/baseimage:latest vm-host
+
+## List Docker containers (running, all, all in quiet mode)
+   docker container ls
+   docker container ls --all
+   docker container ls -aq
+
+## List the running containers
+   docker ps
+
+## List the networks
+   docker network ls
+
+## Stop a running container through SIGTERM
+   docker stop web_container
+
+## Stop a running container through SIGKILL
+   docker kill web_container
+
+## Print the last 100 lines of a container’s logs
+   docker logs --tail 100 web_container
+
+## using docker UI
+   docker run -d -p 9000:9000 --privileged -v /var/run/docker.sock:/var/run/docker.sock uifd/ui-for-docker
+
+## check image history, for reverse-engineer
+   docker history image_name
+   docker inspect image_name
+
+## create docker machine on windows with Hyper-V
+   docker-machine create --driver hyperv vm_host_01
+
+## share images and containers with others, with no registry
+   docker export --output todoapp_content.tar todoapp_container
+
+   docker pull debian:7:3
+   .....
+   docker save debian:7.3 > debian7_3.tar
+
+   docker import debian7_3.tar
+
+## Build your image with the --no-cache flag
+   docker build --no-cache .
+
+## delete image and container
+   docker container rm amzlinux-con
+   docker image rm amzlinux-img
+
+## detach from a container interaction without stopping it.
+   Press Ctrl-P and then Ctrl-Q to detach.
+   hit Ctrl-C to get your terminal back
+
+## to perform commands on a running container
+   docker run -d --name sleeper-container debian-image sleep infinity
+
+   docker exec sleeper-container echo "hello host from container"
+
+## to access files on the host from within a container.
+   ## /var/db/tables in host
+   ## /var/data1 in container
+   docker run -v /var/db/tables:/var/data1 -it debian-image bash
+
+## to use an external volume within a container but you only want Docker to
+## access the files.
+   docker run -v /shared-data --name dc busybox touch /shared-data/somefile
+
+   docker run -t -i --volumes-from dc busybox /bin/sh
+   / # ls /shared-data
+   somefile
+
+## on windows 10, check VM settings
+   check -> C:\ProgramData\DockerDesktop
+            "C:\Users\Public\Documents\Hyper-V\Virtual Hard Disks\MobyLinuxVM.vhdx"
+
+## run image, start container
+   docker run amzlinux-basic-img ls -al
+   docker start -i amzlinux-basic-con
+
+###### running sample #######
+
+01: create DockerFile like:
+
+    D:\DockerTest>cat DockerFile
+    FROM node
+    MAINTAINER ian.miell@gmail.com
+    RUN git clone -q https://github.com/docker-in-practice/todo.git
+    WORKDIR todo
+    RUN npm install > /dev/null
+    EXPOSE 8000
+    CMD ["npm","start"]
+
+
+02: docker build .
+
+03: docker tag ca016632b286 todoapp
+
+04: docker run -p 8000:8000 todoap
+    docker run -p 8000:8000 --name todoapp_container todoapp
+
+05: docker commit todoapp_container
+
+06: docker logs --tail 100 todoapp_container 
+    
+07: docker export --output todoapp_content.tar todoapp_container
+
+######### running my-alpine ##############
+01: docker build --no-cache -f DockerFileHost .
+
+02: docker tag cd92f6fd891f amzlinux-img
+
+03: docker run -it -p 26656:26656 -p 26657:26657 -p 5501:5501 -p 6501:6501 -p 9090:9090 --name amzlinux-container amzlinux-img
+
+04: docker container ls --all  
+
+05: docker stop my-alpine-container  # docker container rm my-alpine-container  
+                                     # docker image rm my-alpine-img
+                                     # docker system prune
+
+06: docker start -i amzlinux-container
+
+######### amzlinux ####################
+    yum update 
+    yum install aws-cli
+    yum install wget
+    yum install which
+    yum install jwhois
+    yum install unzip
+    yum install python-pip
+    yum install sudo
+    yum install gcc
+    yum install gcc-c++
+    curl -sL https://rpm.nodesource.com/setup_10.x | sudo bash -
+    yum install nodejs
+    yum install openssh-clients
+    yum install openssh
+    yum install passwd
+    
+    docker export --output amzlinux-2018.tar amzlinux-con

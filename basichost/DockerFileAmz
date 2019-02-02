@@ -1,0 +1,6 @@
+# generate amzlinux-basic-img
+
+FROM scratch
+ADD amzn-container-minimal-2018.03.0.20190118-x86_64.tar.xz /
+
+CMD ["/bin/sh"]

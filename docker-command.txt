@@ -108,6 +108,9 @@ Docker commands overview (with examples):
    docker save -o amzlinux-img.tar amzlinux-img
    docker export --output amxlinux-con.tar amxlinux-con
    
+## compare container
+   docker diff amzlinux-basic-con
+   
 ###### running sample #######
 
 01: create DockerFile like:

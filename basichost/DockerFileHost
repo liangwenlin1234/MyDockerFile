@@ -1,0 +1,42 @@
+FROM amzlinux-basic-img
+
+ENV JAVA_HOME /home/java
+ENV JAVA_URL https://download.java.net/openjdk/jdk10/ri/jdk-10_linux-x64_bin_ri.tar.gz
+
+ENV TMHOME /home/tendermint
+ENV TENDER_URL https://github.com/tendermint/tendermint/releases/download/v0.29.1/tendermint_0.29.1_linux_amd64.zip
+
+ENV PATH $PATH:$JAVA_HOME/bin:$TMHOME
+
+# 01: get wget
+RUN sudo yum install wget
+
+# 02: jdk
+RUN mkdir "$JAVA_HOME"; \ 
+    wget -O /openjdk.tgz "$JAVA_URL"; \
+    tar --extract --file /openjdk.tgz --directory "$JAVA_HOME" --strip-components 1; \
+    rm /openjdk.tgz
+
+# 03: Tendermint
+RUN mkdir "$TMHOME"; \
+    wget -O /tendermint.zip "$TENDER_URL"; \
+    unzip /tendermint.zip -d "$TMHOME"; \
+    rm /tendermint.zip
+
+# 04: create user
+RUN sudo useradd liangwenlin && \
+    sudo usermod -a -G liangwenlin liangwenlin
+
+# 05: create working directory
+RUN mkdir /home/config && \
+    mkdir /home/download && \
+    mkdir /home/log && \
+    chown -R liangwenlin:liangwenlin /home/config && \
+    chown -R liangwenlin:liangwenlin /home/download && \
+    chown -R liangwenlin:liangwenlin /home/log
+
+EXPOSE 26656 26657 5501 6501 9090
+
+CMD ["/bin/sh"]
+
+

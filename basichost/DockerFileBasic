@@ -1,0 +1,6 @@
+# generate amzlinux-basic-img
+
+FROM scratch
+ADD amzlinux-2018.tar.gz /
+
+CMD ["/bin/sh"]

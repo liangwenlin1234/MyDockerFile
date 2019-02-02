@@ -8,6 +8,8 @@ Docker commands overview (with examples):
    docker --version
    docker version
    docker info
+   
+## build image
 
 ## Execute Docker image
    docker run hello-world
@@ -21,7 +23,8 @@ Docker commands overview (with examples):
       alpine:3.4             ## the image from which the container is instantiated
       /bin/sh                ## the command to run inside the container
 
-## List Docker images
+## List Docker containers/images
+   docker container ls --all
    docker image ls
    docker images
 
@@ -102,7 +105,9 @@ Docker commands overview (with examples):
 
 ## run image, start container
    docker run amzlinux-basic-img ls -al
-   docker start -i amzlinux-basic-con
+   docker run -it amzlinux-basic-img
+   docker run -it --name amzlinux-basic-con amzlinux-basic-img
+   docker start -it amzlinux-basic-con
 
 ## save image and export container 
    docker save -o amzlinux-img.tar amzlinux-img
@@ -110,6 +115,10 @@ Docker commands overview (with examples):
    
 ## compare container
    docker diff amzlinux-basic-con
+   
+## remove container/image
+   docker container rm amzlinux-basic-con amzlinux-con 
+   docker rmi amzlinux-basic-img
    
 ###### running sample #######
 

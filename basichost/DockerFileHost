@@ -8,8 +8,24 @@ ENV TENDER_URL https://github.com/tendermint/tendermint/releases/download/v0.29.
 
 ENV PATH $PATH:$JAVA_HOME/bin:$TMHOME
 
-# 01: get wget
-RUN sudo yum install wget
+# 01: install packages
+RUN yum update && \
+    yum install aws-cli -y && \
+    yum install wget -y && \
+    yum install which -y && \
+    yum install jwhois -y && \ 
+    yum install unzip -y && \ 
+    yum install epel-release -y && \
+    yum install python-pip -y && \ 
+    yum install sudo -y && \
+    yum install gcc -y && \
+    yum install gcc-c++ -y && \ 
+    curl -sL https://rpm.nodesource.com/setup_10.x | sudo bash - && \
+    yum install nodejs -y && \ 
+    
+    yum install openssh-clients -y && \
+    yum install openssh -y && \
+    yum install passwd -y
 
 # 02: jdk
 RUN mkdir "$JAVA_HOME"; \ 

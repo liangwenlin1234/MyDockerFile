@@ -104,13 +104,16 @@ Docker commands overview (with examples):
    docker run amzlinux-basic-img ls -al
    docker start -i amzlinux-basic-con
 
+## save image and export container 
+   docker save -o amzlinux-img.tar amzlinux-img
+   docker export --output amxlinux-con.tar amxlinux-con
+   
 ###### running sample #######
 
 01: create DockerFile like:
 
     D:\DockerTest>cat DockerFile
     FROM node
-    MAINTAINER ian.miell@gmail.com
     RUN git clone -q https://github.com/docker-in-practice/todo.git
     WORKDIR todo
     RUN npm install > /dev/null
@@ -136,17 +139,17 @@ Docker commands overview (with examples):
 
 02: docker tag cd92f6fd891f amzlinux-img
 
-03: docker run -it -p 26656:26656 -p 26657:26657 -p 5501:5501 -p 6501:6501 -p 9090:9090 --name amzlinux-container amzlinux-img
+03: docker run -it -p 26656:26656 -p 26657:26657 -p 5501:5501 -p 6501:6501 -p 9090:9090 --name amzlinux-con amzlinux-img
 
 04: docker container ls --all  
 
-05: docker stop my-alpine-container  # docker container rm my-alpine-container  
-                                     # docker image rm my-alpine-img
-                                     # docker system prune
+05: docker stop amzlinux-con  # docker container rm amzlinux-con  
+                              # docker image rm amzlinux-img
+                              # docker system prune
 
-06: docker start -i amzlinux-container
+06: docker start -i amzlinux-con
 
-######### amzlinux ####################
+######### amzlinux install packages ####################
     yum update 
     yum install aws-cli
     yum install wget

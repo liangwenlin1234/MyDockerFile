@@ -12,6 +12,7 @@ ENV PATH $PATH:$JAVA_HOME/bin:$TMHOME
 RUN yum update -y && \
     yum install aws-cli -y && \
     yum install wget -y && \
+    yum install vi -y && \
     yum install which -y && \
     yum install jwhois -y && \ 
     yum install unzip -y && \ 
@@ -45,12 +46,11 @@ RUN sudo useradd liangwenlin && \
     sudo usermod -a -G liangwenlin liangwenlin
 
 # 05: create working directory
-RUN mkdir /home/config && \
-    mkdir /home/download && \
-    mkdir /home/log && \
-    chown -R liangwenlin:liangwenlin /home/config && \
-    chown -R liangwenlin:liangwenlin /home/download && \
-    chown -R liangwenlin:liangwenlin /home/log
+RUN mkdir /home/app && \
+    mkdir /home/app/config && \
+    mkdir /home/app/download && \
+    mkdir /home/app/log && \
+    chown -R liangwenlin:liangwenlin /home/app
 
 EXPOSE 26656 26657 5501 6501 9090
 

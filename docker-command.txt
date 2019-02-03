@@ -87,10 +87,17 @@ Docker commands overview (with examples):
    docker exec sleeper-container echo "hello host from container"
 
 ## to access files on the host from within a container.
-   ## /var/db/tables in host
-   ## /var/data1 in container
-   docker run -v /var/db/tables:/var/data1 -it debian-image bash
-
+   ## /var/app/log in host (D:\App\log windows format)
+   ## /home/log in container
+   docker run -v /var/app/log:/home/log -it debian-image bash
+   docker run -v D:\App\log:/home/log -it amzlinux-test-img
+   
+## volumes
+   docker volume create test-log
+   docker volume inspect test-log
+   docker volume ls
+   docker volume rm test-log
+   
 ## to use an external volume within a container but you only want Docker to
 ## access the files.
    docker run -v /shared-data --name dc busybox touch /shared-data/somefile
@@ -107,7 +114,7 @@ Docker commands overview (with examples):
    docker run amzlinux-basic-img ls -al
    docker run -it amzlinux-basic-img
    docker run -it --name amzlinux-basic-con amzlinux-basic-img
-   docker start -it amzlinux-basic-con
+   docker start -i amzlinux-basic-con
 
 ## save image and export container 
    docker save -o amzlinux-img.tar amzlinux-img

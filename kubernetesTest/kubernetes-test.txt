@@ -1,0 +1,52 @@
+# minikube start --vm-driver hyperv
+
+# minikube start --vm-driver hyperv --hyperv-virtual-switch="Default Switch"
+
+kubectl cluster-info
+
+kubectl get nodes
+
+kubectl get pods
+
+kubectl get rc
+
+kubectl describe rc kubia
+
+export KUBE_EDITOR="/usr/bin/nano"
+
+kubectl scale rc kubia --replicas=10
+
+kubectl edit rc kubia
+
+kubectl get services
+
+kubectl explain pods
+
+kubectl create -f kubia-manual.yaml
+
+kubectl get po kubia-manual -o yaml
+
+kubectl get po kubia-manual -o json
+
+kubectl logs kubia-manual
+
+kubectl logs kubia-manual -c kubia
+
+kubectl port-forward kubia-manual 8888:8080
+
+curl localhost:8888
+
+kubectl describe po kubia-liveness
+
+kubectl create -f kubia-svc.yaml
+
+kubectl get svc
+
+kubectl describe svc kubia
+
+kubectl get endpoints kubia
+
+
+
+
+

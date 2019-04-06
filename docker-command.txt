@@ -10,7 +10,9 @@ Docker commands overview (with examples):
    docker info
    
 ## build image
-
+   docker build .
+   docker build -f DockerfileTest
+   
 ## Execute Docker image
    docker run hello-world
 
